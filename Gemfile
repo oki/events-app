@@ -10,4 +10,7 @@ gem 'capistrano'
 gem 'capistrano-rbenv'
 gem 'capistrano-bundler'
 
+gem 'foreman'
+gem 'foreman-export-initscript'
+
 gem 'dotenv'
