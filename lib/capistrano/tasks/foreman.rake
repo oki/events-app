@@ -1,8 +1,13 @@
 namespace :foreman do
   desc "Export the Procfile to initscript scripts"
   task :export do
-    run "cd #{release_path} && foreman export initscript -a events_app -u #{ENV['PRODUCTION_USER']} x-42 -l #{shared_path}/log"
-    sudo "cp #{release_path}/x-42/events_app /etc/init.d"
+    on roles(:app) do
+      within release_path do
+        execute :bundle, "exec foreman export initscript -a events_app -u #{ENV['PRODUCTION_USER']} x-42 -l #{shared_path}/log"
+        sudo "cp #{release_path}/x-42/events_app /etc/init.d"
+        sudo "chmod 755 /etc/init.d/events_app"
+      end
+    end
   end
 
   # desc "Start the application services"
