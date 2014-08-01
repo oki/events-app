@@ -17,6 +17,7 @@ class Subscribe < Goliath::API
         on.pmessage do |pattern, event, message|
           @event = event.split(':',2)[-1] # event:uptime -> uptime
           @message = message
+          env.logger.debug "Sending: #{payload}"
           env.stream_send(payload)
         end
 
