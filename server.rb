@@ -11,7 +11,7 @@ class Subscribe < Goliath::API
       @redis = Redis.new(driver: :synchrony)
       @redis.psubscribe('event:*') do |on|
         on.psubscribe do |event,_|
-          env.logger.info "Subscribed to ##{event}"
+          env.logger.info "Subscribed for ##{event}"
         end
 
         on.pmessage do |pattern, event, message|
@@ -21,8 +21,8 @@ class Subscribe < Goliath::API
           env.stream_send(payload)
         end
 
-        on.punsubscribe do |event, total|
-          logger.info "Unsubscribed for ##{event} (#{total} subscriptions)"
+        on.punsubscribe do |event,_|
+          env.logger.info "Unsubscribed for ##{event}"
         end
       end
     end
@@ -30,6 +30,7 @@ class Subscribe < Goliath::API
   end
 
   def on_close(env)
+    @redis.punsubscribe('event:*')
     env.logger.info "Disconected!"
   end
 
