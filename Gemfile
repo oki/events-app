@@ -1,10 +1,9 @@
 # A sample Gemfile
 source "https://rubygems.org"
 
-gem 'goliath'
-gem 'redis'
-gem 'em-hiredis'
-gem 'em-synchrony'
+gem 'faye'
+gem 'thin'
+gem 'eventmachine'
 
 gem 'capistrano'
 gem 'capistrano-rbenv'
